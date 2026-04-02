@@ -6,9 +6,9 @@ Welcome to the official repository for **Hands-On**, our Sign Language Segmentat
 
 ### Important Notes on Usage
 
-* **Custom Data:** If you are processing your own sign language videos, you will need to manually convert your raw HaMeR and 3D angle inputs to match the provided examples.
+* **Custom Data:** If you are processing your own sign language videos, you will need to extract HaMeR and 3D angle inputs following the guide below to match the provided examples.
 
-* **Future Support & FAST:** Comprehensive data conversion scripts are omitted, as this pipeline is being deprecated in favor of our next-generation model, **FAST**. Featuring a streamlined uni-modal design and 6D data representations, FAST will be fully released upon the acceptance of [SignSpark](https://arxiv.org/pdf/2603.10446).
+* **Future Support & FAST:** Comprehensive end-to-end scripts are omitted, as this pipeline is being deprecated in favor of our next-generation model, **FAST**. Featuring a streamlined uni-modal design and 6D data representations, FAST will be fully released upon the acceptance of [SignSpark](https://arxiv.org/pdf/2603.10446).
 
 ## 🚀 QuickStart (Tested on RTX3090 & RTX5090)
 - Install conda environment: 
