@@ -1,0 +1,121 @@
+name: handson_ckpt
+wandb_logger: true
+log_level: INFO
+local_logger: true
+save_images: true
+save_path: ./inference_utils/
+plot_n_skeletons: 0
+data:
+    dataset_name: MDGS
+    data_paths:
+    # Datapaths are not used during inference
+        metadata_path: None
+        split_path: None
+        data_path: None
+        bert_emb: None
+        i3d_lmdb: None
+        hamer_lmdb: None
+    use:
+        bert: false
+        i3d: false
+        angles: true
+        hamer: true
+    train_subset: -1
+    val_subset: -1
+    test_subset: -1
+    train_batch_size: 64
+    test_batch_size: 64
+    num_workers: 19
+    shuffle: true
+    window_size: 50
+    stride: 50
+    rm_gloss_variant: false
+    normalizations:
+        pre_normed: false
+        angles2pose: false
+        lp_filter: 10
+        zero_neck: false
+        norm_rotation: false
+    subsample_pose: 2
+    subsample_i3d: 2
+training:
+    test_every_n_epochs: 1
+    log_every_n_steps: 5
+    random_seed: 42
+    gradient_clip_val: 0.1
+    gradient_clip_algorithm: value
+    epochs: 500
+    fp16: false
+    print_valid_sents:
+    - 0
+    - 1
+    - 2
+    checkpoint:
+        save: true
+        follow_metric: val_Sign_F1_score
+        mode: max
+        keep_top_ckpts: 3
+model:
+    input_type: hamer_mix
+    early_stopping:
+        metric: val_Sign_F1_score
+        mode: max
+        patience: 20
+    loss: xentropy
+    weight_type: effective_number
+    repetition_penalty: 0.0
+    converge_value_sign: 0.7
+    converge_value_sent: 0.0
+    sign_weight: 1.5
+    sentence_weight: 0
+    gloss_weight: 150.0
+    learning_rate: 0.0003
+    save_val_frequency: 5
+    train_cal_metrics: false
+    optimizer:
+        type: adam
+        adam_betas:
+        - 0.9
+        - 0.999
+        weight_decay: 0.0
+    scheduler:
+        type: ReduceLROnPlateau
+        tracking_metric: val_Sign_F1_score
+        interval: epoch
+        frequency: 1
+        mode: max
+        factor: 0.5
+        patience: 5
+        min_lr: 1.0e-12
+    initialization:
+        initializer: xavier_uniform
+        init_gain: 1.0
+        bias_initializer: zeros
+        embed_initializer: xavier_uniform
+        embed_init_gain: 1.0
+        tied_embeddings: false
+    model_type: encoder
+    encoder:
+        type: transformer
+        num_layers: 4
+        num_heads: 4
+        embeddings:
+            embedding_dim: 512
+            scale: true
+            freeze: false
+            dropout: 0.0
+        hidden_size: 512
+        ff_size: 1024
+        dropout: 0.2
+        freeze: false
+        layer_norm: pre
+        activation: relu
+    mixer:
+        size: 1024
+        ff_size: 1024
+        num_heads: 4
+        dropout: 0.1
+        alpha: 0.1
+        layer_norm: pre
+        activation: relu
+wandb_logger_id: 
